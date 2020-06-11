@@ -51,29 +51,35 @@ const GET_MOVIE = gql`
       rating
       description_intro
     }
+    suggestions(id: $id) {
+      id
+      medium_cover_image
+    }
   }
 `
 export default () => {
   let { id } = useParams()
   id = Number(id)
   const { loading, data } = useQuery(GET_MOVIE, { variables: { id } })
-
+  console.log(data)
   return (
     <>
       <Container>
         <Column>
-          {}
           <Title>{loading ? "loading.." : data.movie.title}</Title>
-          {!loading && data.movie && (
-            <>
-              <Subtitle>
-                {data.movie.language} · {data.movie.rating}/10
-              </Subtitle>
-              <Description>{data.movie.description_intro}</Description>
-            </>
-          )}
+          <>
+            <Subtitle>
+              {data?.movie?.language} · {data?.movie?.rating}
+            </Subtitle>
+            <Description>{data?.movie?.description_intro}</Description>
+          </>
         </Column>
-        <Poster bg={data && data.movie ? data.movie.medium_cover_image : ""}></Poster>
+        {/* optional chaining 은 */}
+        {/* bg={data && data.movie ? data.movie.medium_cover_image : ""} */}
+        {/* bg={data?.movie?.medium_cover_image} 위에것과 같게 만들어줌 */}
+        <Poster bg={data?.movie?.medium_cover_image} />
+        {/* {data && data.suggestions && data.suggestions.map()} */}
+        {/* {data?.suggestions?.map(m=> m)} */}
       </Container>
     </>
   )
