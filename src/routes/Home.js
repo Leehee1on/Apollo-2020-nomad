@@ -7,12 +7,8 @@ import Movie from "../components/Movie"
 
 const Container = styled.div`
   display: flex;
-  display: flex;
-  flex-direction: column;
   flex-direction: column;
   align-items: center;
-  align-items: center;
-  width: 100%;
   width: 100%;
 `
 const Header = styled.header`
@@ -53,6 +49,7 @@ const GET_MOVIES = gql`
       id
       medium_cover_image
       title
+      isLiked @client
     }
   }
 `
@@ -80,7 +77,7 @@ export default () => {
       {loading && <Loading>Loading</Loading>}
       <Movies>
         {data?.movies?.map((m) => (
-          <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />
+          <Movie key={m.id} id={m.id} bg={m.medium_cover_image} isLiked={m.isLiked} />
         ))}
       </Movies>
     </Container>
